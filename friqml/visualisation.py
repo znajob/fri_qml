@@ -1,7 +1,7 @@
 import cmath
 from qutip import Bloch
 import matplotlib.pyplot as plt
-
+from pennylane import numpy as np
 
 def get_vector(alpha, beta):
     """
