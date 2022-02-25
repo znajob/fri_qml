@@ -46,9 +46,9 @@ def e3_circuit3():
 
 
 def e3_reconstruct_hidden_state(dev):
-    circuit1 = qml.qnode(dev)(e1_circuit1)
-    circuit2 = qml.qnode(dev)(e1_circuit2)
-    circuit3 = qml.qnode(dev)(e1_circuit3)
+    circuit1 = qml.qnode(dev)(e3_circuit1)
+    circuit2 = qml.qnode(dev)(e3_circuit2)
+    circuit3 = qml.qnode(dev)(e3_circuit3)
     mx = circuit1()
     my = circuit2()
     mz = circuit3()
