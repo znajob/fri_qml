@@ -2,7 +2,6 @@
 import pennylane as qml
 from pennylane import numpy as np
 from friqml.utils import eps
-from friqml.exercises import e5_hidden_preparation
 
 
 # EXERCISE 1
