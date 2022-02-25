@@ -1,19 +1,15 @@
 import pennylane as qml
 from pennylane import numpy as np
 
-
-def single_qubit_device():
-    return qml.device('default.qubit', wires=1, shots=None)
-
-
 THETA = np.pi/4
 PHI = np.pi/3
-
-
-def hidden_preparation():
-    qml.RX(THETA, wires=0)
+def hidden_preparation(wires=0):
+    qml.RY(THETA, wires=0)
     qml.RZ(PHI, wires=0)
 
-
 def check_hidden_state(psi):
-    pass
+    print(PHI/np.pi,THETA/np.pi)
+    psi0=[np.cos(THETA/2),np.exp(-1j*PHI)*np.sin(THETA/2)]
+    print(psi0)
+    print(psi)
+    return eps>np.abs(1-np.abs(np.dot(np.conj(psi0),psi)))
