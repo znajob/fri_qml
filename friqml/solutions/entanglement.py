@@ -16,3 +16,12 @@ def e2_circuit():
     qml.RY(-np.pi/2, wires=0)
     qml.CNOT(wires=[0, 1])
     return qml.expval(qml.PauliZ(0)), qml.expval(qml.PauliZ(1)), qml.expval(qml.PauliZ(0) @ qml.PauliZ(1))
+
+
+# EXERCISE 3
+
+
+# EXERCISE 4
+
+
+# EXERCISE 5
