@@ -5,7 +5,7 @@ eps = 1e-13
 
 
 def random_state_unnormalized(n=4):
-    x = np.random.rand()+1j*np.random.rand()
+    x = np.random.rand(n)+1j*np.random.rand(n)
     return x
 
 
