@@ -1,6 +1,6 @@
 import pennylane as qml
 from pennylane import numpy as np
-
+from friqml.utils import eps
 
 # EXERCISE 5
 e5_THETA = np.pi/4
