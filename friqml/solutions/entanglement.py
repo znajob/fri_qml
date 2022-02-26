@@ -18,10 +18,5 @@ def e2_circuit():
     return qml.expval(qml.PauliZ(0)), qml.expval(qml.PauliZ(1)), qml.expval(qml.PauliZ(0) @ qml.PauliZ(1))
 
 
-# EXERCISE 3
+# EXERCISE 3: Entanglement game
 
-
-# EXERCISE 4
-
-
-# EXERCISE 5
