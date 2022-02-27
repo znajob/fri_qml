@@ -14,7 +14,7 @@ def e1_circuit(p):
 
 
 # EXERCISE 2
- def e2_circuit(p):
+def e2_circuit(p):
     qml.Hadamard(wires=0)
     qml.DepolarizingChannel(p, wires=0)
     qml.Hadamard(wires=0)
