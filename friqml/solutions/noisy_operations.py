@@ -26,3 +26,8 @@ def e2_circuit_bf(p):
     qml.BitFlip(p, wires=0)
     qml.Hadamard(wires=0)
     return qml.probs(wires=[0])
+
+
+# ENTANGLEMENT GAME
+def quantum_strategy_probability():
+    return 0.82
