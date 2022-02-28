@@ -57,12 +57,3 @@ def e3_reconstruct_hidden_state(dev):
     theta = np.arctan2(np.sqrt(mx**2+my**2), mz)
     psi = np.array([np.cos(theta/2), np.exp(-1j*phi)*np.sin(theta/2)])
     return psi
-
-
-# EXERCISE 4
-
-
-# EXERCISE 5
-
-
-# EXERCISE 6
