@@ -72,7 +72,7 @@ def sx(i, n):
 
 
 def transverse_ising(J, hz, hx):
-    n = len(h)
+    n = len(hz)
     H = classical_ising(J, hz)
     for i in range(n):
         H -= hx[i]*sx(i, n)
