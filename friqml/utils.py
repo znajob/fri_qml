@@ -44,9 +44,9 @@ def get_vector(alpha, beta):
     # special case to avoid division by zero
     if abs(alpha) == 0 or abs(beta) == 0:
         if alpha == 0:
-            return [0, 0, -1]
+            return [0, 0, -1], [np.pi, 0]
         else:
-            return [0, 0, 1]
+            return [0, 0, 1], [0, 0]
     else:
         # compute theta and phi from alpha and beta
         theta = 2*cmath.acos(alpha_new)
