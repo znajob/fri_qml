@@ -12,6 +12,10 @@ class sin_prob_dist(rv_continuous):
         return 0.5 * np.sin(theta)
 
 
+# Samples of theta should be drawn from between 0 and pi
+sin_sampler = sin_prob_dist(a=0, b=np.pi)
+
+
 def haar_random_unitary(wires):
     # Sample phi and omega as normal
     phi, omega = 2 * np.pi * np.random.uniform(size=2)
