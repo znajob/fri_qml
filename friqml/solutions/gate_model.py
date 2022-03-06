@@ -21,3 +21,11 @@ def haar_random_unitary(wires):
     phi, omega = 2 * np.pi * np.random.uniform(size=2)
     theta = sin_sampler.rvs(size=1)  # Sample theta from our new distribution
     qml.Rot(phi, theta, omega, wires=wires)
+
+
+# EXERCISE 2
+def e2_circuit():
+    qml.Hadamard(wires=0)
+    qml.CNOT(wires=[0, 1])
+    qml.CNOT(wires=[0, 2])
+    return qml.sample()
