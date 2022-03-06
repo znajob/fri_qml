@@ -22,13 +22,16 @@ def ising_solution(J, h):
     solution = ""
     n = len(h)
     e_min = 10 ^ 12  # some large number
+    es = []
     for i in range(2**n):
         sigma = [2*int(x)-1 for x in bin(i)[2:].zfill(n)]
         e = h_ising(J, h, sigma)
+        es.append(e)
         if e < e_min:
             e_min = e
             solution = sigma
-    return solution, e_min
+    es = sorted(es)
+    return solution, es
 
 
 def dimod_qubo_ising(J, h):
@@ -43,3 +46,20 @@ def dimod_qubo_ising(J, h):
 # sigma,emin=ising_solution(J,h)
 # model = dimod_qubo_ising(J,h)
 # sampleset = dimod.SimulatedAnnealingSampler().sample(model,num_reads=100)
+
+
+# EXERCISE 3
+def sz(i, n):
+    assert i < n, "i has to be smaller than n"
+    return np.kron(np.kron(np.eye(2**(i)), np.array([[1, 0], [0, -1]])), np.eye(2**(n-i-1)))
+
+
+def ising_hamiltonian(J, h):
+    H = 0
+    n = len(h)
+    for i in range(n):
+        H += h[i]*sz(i, n)
+
+    for i in range(n-1):
+        H += J[i]*sz(i, n)@sz(i+1, n)
+    return H
