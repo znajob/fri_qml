@@ -2,6 +2,7 @@
 import pennylane as qml
 from pennylane import numpy as np
 from friqml.utils import eps, sz, sx
+import dimod
 
 
 # EXERCISE 1
