@@ -29,3 +29,17 @@ def ising_solution(J, h):
             e_min = e
             solution = sigma
     return solution, e_min
+
+
+def dimod_qubo_ising(J, h):
+    a = -h
+    b = np.diag(-J, 1)
+    qbm = dimod.BinaryQuadraticModel(a, b, "SPIN")
+    return qbm
+
+# The exercise is solved as follows
+# n=3
+# J,h = random_antiferromagnetic_ising(n)
+# sigma,emin=ising_solution(J,h)
+# model = dimod_qubo_ising(J,h)
+# sampleset = dimod.SimulatedAnnealingSampler().sample(model,num_reads=100)
