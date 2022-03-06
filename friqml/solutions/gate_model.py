@@ -12,9 +12,8 @@ class sin_prob_dist(rv_continuous):
         return 0.5 * np.sin(theta)
 
 
-def haar_random_unitary():
+def haar_random_unitary(wires):
     # Sample phi and omega as normal
     phi, omega = 2 * np.pi * np.random.uniform(size=2)
     theta = sin_sampler.rvs(size=1)  # Sample theta from our new distribution
-    qml.Rot(phi, theta, omega, wires=0)
-    return qml.state()
+    qml.Rot(phi, theta, omega, wires=wires)
