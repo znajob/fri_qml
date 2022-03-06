@@ -1,5 +1,5 @@
 from pennylane import numpy as np
-from friqml.utils import eps
+from friqml.utils import eps, sz, sx
 import dimod
 
 
@@ -48,11 +48,6 @@ def dimod_qubo_ising(J, h):
 
 
 # EXERCISE 3
-def sz(i, n):
-    assert i < n, "i has to be smaller than n"
-    return np.kron(np.kron(np.eye(2**(i)), np.array([[1, 0], [0, -1]])), np.eye(2**(n-i-1)))
-
-
 def classical_ising(J, h):
     H = 0
     n = len(h)
@@ -65,11 +60,6 @@ def classical_ising(J, h):
 
 
 # EXERCISE 4
-def sx(i, n):
-    assert i < n, "i has to be smaller than n"
-    return np.kron(np.kron(np.eye(2**(i)), np.array([[0, 1], [1, 0]])), np.eye(2**(n-i-1)))
-
-
 def transverse_ising(J, hz, hx):
     n = len(hz)
     H = classical_ising(J, hz)
