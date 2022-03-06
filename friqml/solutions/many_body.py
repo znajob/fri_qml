@@ -43,7 +43,7 @@ def dimod_qubo_ising(J, h):
 # The exercise is solved as follows
 # n=3
 # J,h = random_antiferromagnetic_ising(n)
-# sigma,emin=ising_solution(J,h)
+# sigma,es=ising_solution(J,h)
 # model = dimod_qubo_ising(J,h)
 # sampleset = dimod.SimulatedAnnealingSampler().sample(model,num_reads=100)
 
@@ -54,12 +54,26 @@ def sz(i, n):
     return np.kron(np.kron(np.eye(2**(i)), np.array([[1, 0], [0, -1]])), np.eye(2**(n-i-1)))
 
 
-def ising_hamiltonian(J, h):
+def classical_ising(J, h):
     H = 0
     n = len(h)
     for i in range(n):
-        H += h[i]*sz(i, n)
+        H -= h[i]*sz(i, n)
 
     for i in range(n-1):
-        H += J[i]*sz(i, n)@sz(i+1, n)
+        H -= J[i]*sz(i, n)@sz(i+1, n)
+    return H
+
+
+# EXERCISE 4
+def sx(i, n):
+    assert i < n, "i has to be smaller than n"
+    return np.kron(np.kron(np.eye(2**(i)), np.array([[0, 1], [1, 0]])), np.eye(2**(n-i-1)))
+
+
+def transverse_ising(J, hz, hx):
+    n = len(h)
+    H = classical_ising(J, hz)
+    for i in range(n):
+        H -= hx[i]*sx(i, n)
     return H
