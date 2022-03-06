@@ -18,7 +18,8 @@ setup(
     license=license,
     install_requires=[
         'pennylane',
-        'qutip'
+        'qutip',
+        'dimod',
     ],
     packages=["friqml"],
 )
