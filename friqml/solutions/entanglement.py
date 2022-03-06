@@ -6,8 +6,9 @@ from friqml.utils import eps
 
 # EXERCISE 1
 def is_entangled(psi):
+    n = len(psi)
     rho = np.outer(np.conj(psi), psi)
-    rho1 = rho[:2, :2]+rho[2:, 2:]
+    rho1 = rho[:n//2, :n//2]+rho[n//2:, n//2:]
     return np.abs(np.trace(np.linalg.matrix_power(rho1, 2))-1) > eps
 
 
