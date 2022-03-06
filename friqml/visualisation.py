@@ -10,7 +10,7 @@ def plot_quantum_state(amplitudes):
     Thin function to abstract the plotting on the Bloch sphere.
     """
     bloch_sphere = Bloch()
-    vec = get_vector(amplitudes[0], amplitudes[1])
+    vec, _ = get_vector(amplitudes[0], amplitudes[1])
     bloch_sphere.add_vectors(vec)
     bloch_sphere.show()
     # bloch_sphere.clear()

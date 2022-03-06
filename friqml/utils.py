@@ -56,4 +56,4 @@ def get_vector(alpha, beta):
         y = cmath.sin(theta)*cmath.sin(phi)
         z = cmath.cos(theta)
 
-    return [x.real, y.real, z.real]
+    return [x.real, y.real, z.real], [theta, phi]
