@@ -18,9 +18,9 @@ def random_antiferromagnetic_ising(n):
 
 
 def ising_solution(J, h):
-    solution = ""
+    solution = None
     n = len(h)
-    e_min = 10 ^ 12  # some large number
+    e_min = np.inf  # some large number
     es = []
     for i in range(2**n):
         sigma = [2*int(x)-1 for x in bin(i)[2:].zfill(n)]
