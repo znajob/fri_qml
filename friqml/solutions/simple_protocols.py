@@ -1,11 +1,9 @@
 
 import pennylane as qml
 from pennylane import numpy as np
-from friqml.utils import eps
+
 
 # EXERCISE 1
-
-
 def cU(alpha, beta, gamma, delta, wires=[0, 1]):
     w0 = wires[0]
     w1 = wires[1]

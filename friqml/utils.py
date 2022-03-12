@@ -64,9 +64,11 @@ def sx(i, n):
     assert i < n, "i has to be smaller than n"
     return np.kron(np.kron(np.eye(2**(i)), np.array([[0, 1], [1, 0]])), np.eye(2**(n-i-1)))
 
+
 def sy(i, n):
     assert i < n, "i has to be smaller than n"
     return np.kron(np.kron(np.eye(2**(i)), np.array([[0, -1j], [1j, 0]])), np.eye(2**(n-i-1)))
+
 
 def sz(i, n):
     assert i < n, "i has to be smaller than n"
