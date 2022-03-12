@@ -23,6 +23,7 @@ def cU(alpha, beta, gamma, delta, wires=[0, 1]):
 
     # C
     qml.RZ((delta-beta)/2, wires=w1)
+    qml.PhaseShift(alpha,wires=w0)
 
 
 # EXERCISE 2
