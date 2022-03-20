@@ -1,5 +1,6 @@
 import pennylane as qml
 from pennylane import numpy as np
+from scipy.linalg import expm
 
 
 # EXERCISE 1
