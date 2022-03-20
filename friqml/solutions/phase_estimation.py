@@ -17,7 +17,7 @@ def powers_of_unitary(U, wires=[0, 1, 2]):
 # EXERCISE 2
 def qpe(U, wires=[0, 1, 2]):
     powers_of_unitary(U, wires=wires)
-    iqft(wires=[0, 1])
+    iqft(wires=wires[:2])
 
 
 # EXERCISE 3
