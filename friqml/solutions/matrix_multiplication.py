@@ -1,6 +1,7 @@
 import pennylane as qml
 from pennylane import numpy as np
 from scipy.linalg import expm
+from friqml.solutions.phase_estimation import qpe, iqpe
 
 
 # EXERCISE 1
