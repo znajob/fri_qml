@@ -3,6 +3,7 @@ from pennylane import numpy as np
 import dimod
 from sklearn.ensemble import RandomForestClassifier
 metric = sklearn.metrics.accuracy_score
+from tqdm.notebook import tqdm
 
 
 # EXERCISE 1
@@ -53,7 +54,7 @@ def find_weights(predictions, rf_model, X_train, y_train, rtol=0.005):
     acc0 = metric(y_train, models)
     acc = acc0
     ls = 0
-    for lam in np.arange(12, 25, 0.5):
+    for lam in tqdm(np.arange(12, 25, 0.5)):
         weights = solve_lambda(predictions, rf_model, y_train, lam)
         acc1 = metric(y_train, predict(rf_model.estimators_, weights, X_train))
         adiff = abs(acc0-acc1)
@@ -61,5 +62,4 @@ def find_weights(predictions, rf_model, X_train, y_train, rtol=0.005):
             acc = acc1
             ws = weights
             ls = lam
-        print(lam, acc, np.sum(weights))
     return ws
