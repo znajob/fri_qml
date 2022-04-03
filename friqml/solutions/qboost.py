@@ -1,6 +1,7 @@
 import pennylane as qml
 from pennylane import numpy as np
 import dimod
+import sklearn
 from sklearn.ensemble import RandomForestClassifier
 metric = sklearn.metrics.accuracy_score
 from tqdm.notebook import tqdm
