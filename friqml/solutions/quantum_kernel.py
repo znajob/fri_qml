@@ -27,8 +27,15 @@ def prepare_class():
                                0, 1], wires=3, control_values="01")
 
 
+def state_preparation():
+    prepare_ancilla()
+    prepare_example_1()
+    prepare_example_2()
+    prepare_class()
+
+
 # EXERCISE 2
-def kernel_circuit():
+def e2_kernel_circuit():
     state_preparation()
     qml.Hadamard(wires=0)
     return qml.sample(wires=[0, 3])
