@@ -20,9 +20,10 @@ def U_C(gamma, graph):
         qml.CNOT(wires=[wire1, wire2])
 
 
-pauli_z_2 = np.array([1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,1])
-
 # EXERCISE 2
+pauli_z_2 = np.array([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
+
+
 def max_cut(betas, gammas, n, graph, edge=None):
     assert len(gammas) == len(
         betas), 'Betas and gammas should have equal length.'
