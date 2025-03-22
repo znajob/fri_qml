@@ -20,7 +20,7 @@ setup(
         'pennylane',
         'qutip',
         'dimod',
-        'autoray==0.6.0',
+        'autoray',
     ],
     packages=["friqml"],
 )
