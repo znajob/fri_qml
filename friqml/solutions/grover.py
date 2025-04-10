@@ -2,13 +2,17 @@ from pennylane import numpy as np
 import pennylane as qml
 
 # EXERCISE 1
+
+
 def equal_superposition(wires):
     for wire in wires:
         qml.Hadamard(wires=wire)
 
+
 # EXERCISE 2
 def oracle(wires, omega):
     qml.FlipSign(omega, wires=wires)
+
 
 # EXERCISE 3
 def diffusion_operator_two_qubits(wires):
@@ -19,6 +23,7 @@ def diffusion_operator_two_qubits(wires):
     for wire in wires:
         qml.Hadamard(wires=wire)
 
+
 # EXERCISE 4
 def diffusion_operator(wires):
     ctrl_values = [0] * (len(wires) - 1)
@@ -28,8 +33,8 @@ def diffusion_operator(wires):
 
     qml.PauliZ(wires[-1])
     qml.MultiControlledX(
-            control_values=ctrl_values,
-            wires=wires)
+        control_values=ctrl_values,
+        wires=wires)
 
     qml.PauliZ(wires[-1])
 
