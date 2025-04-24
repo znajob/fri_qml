@@ -97,9 +97,8 @@ def block_encoding(A, wires=None, wires_aux=None):
         wires_aux)) == 0, "The wires and wires_aux should not contain similar elements."
 
     # PREP
-    prep(coeffs_normalized, wires_aux)
+    qml.StatePrep(coeffs_normalized, wires_aux, pad_with=0)
     # SELECT
     select(pauli_strings, wires=wires, wires_aux=wires_aux)
     # PREP^\dag
-    qml.adjoint(prep(coeffs_normalized, wires_aux))
-    return qml.state()
+    qml.adjoint(qml.StatePrep(coeffs_normalized, wires_aux, pad_with=0))
