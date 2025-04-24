@@ -1,9 +1,8 @@
 from pennylane import numpy as np
 import pennylane as qml
 
+
 # EXERCISE 1
-
-
 def equal_superposition(wires):
     for wire in wires:
         qml.Hadamard(wires=wire)
