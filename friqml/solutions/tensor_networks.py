@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-import scipy
+from tensorflow_probability import math as tfp_math
 
 
 # EXERCISE 1
@@ -40,23 +40,31 @@ class Embedding(tf.keras.layers.Layer):
         super(Embedding, self).__init__()
         self.d = d
         self.flatten = tf.keras.layers.Flatten()
+        self.pi_half = tf.constant(np.pi / 2, dtype=tf.float32)
 
-    def call(self, input):
-        d = self.d
-        x = self.flatten(input)  # (nbatch, N)
-        # We want the batch size to be the second dimension
-        x = tf.transpose(x)
-        pi_half = np.pi/2
-        xc = tf.math.cos(x*pi_half)
-        xs = tf.math.sin(x*pi_half)
+    def _binom(self, n, k):
+        n = tf.cast(n, tf.float32)
+        k = tf.cast(k, tf.float32)
+        return tf.exp(tf.math.lgamma(n + 1) - tf.math.lgamma(k + 1) - tf.math.lgamma(n - k + 1))
+
+    def call(self, inputs):
+        x = self.flatten(inputs)  # (batch_size, N)
+        x = tf.transpose(x)       # (N, batch_size)
+        x = tf.cast(x, tf.float32)
+        xc = tf.math.cos(x * self.pi_half)
+        xs = tf.math.sin(x * self.pi_half)
+
         emb = []
         for j in range(self.d):
-            emb.append(np.sqrt(scipy.special.binom(d-1, j))
-                       * xc**(d-j-1.0) * xs**(1.0*j))
-        return tf.stack(emb, axis=-1)  # (N, nbatch, d)
+            coeff = tf.sqrt(self._binom(self.d - 1, j))
+            term = coeff * tf.pow(xc, self.d - j - 1.0) * tf.pow(xs, j)
+            emb.append(term)
 
+        return tf.stack(emb, axis=-1)  # (N, batch_size, d)
 
 # EXERCISE 3
+
+
 class MPS(tf.keras.layers.Layer):
     def __init__(self, D, C, d=2, stddev=0.5):
         super(MPS, self).__init__()
@@ -66,41 +74,40 @@ class MPS(tf.keras.layers.Layer):
         self.stddev = stddev
 
     def build(self, input_shape):
-        # We assume the input_shape is (N,nbatch,d)
+        # input_shape: (N, batch_size, d)
         N = input_shape[0]
         d = input_shape[2]
-        C = self.C
-        assert d == self.d, f"Input shape should be (N,nbatch,d). Obtained feature size d={d}, expected {self.d}."
-
         self.n = N
-        stddev = self.stddev
-        D = self.D
-        self.tensor = tf.Variable(tf.random.normal(
-            shape=(N, D, D, d), stddev=stddev), name="tensor", trainable=True)
-        self.Aout = tf.Variable(tf.random.normal(
-            shape=(C, D, D), stddev=stddev), name="tensor", trainable=True)
 
-    def call(self, input):
-        # returns the log-overlap
-        d = self.d
-        n = len(input)
-        assert d == self.d, f"Input shape should be (N,nbatch,d). Obtained feature size d={d}, expected {self.d}."
-        assert n == self.n, f"Input shape should be (N,nbatch,d). Obtained input size N={n}, expected {self.n}."
+        self.tensor = self.add_weight(
+            shape=(N, self.D, self.D, d),
+            initializer=tf.keras.initializers.RandomNormal(stddev=self.stddev),
+            trainable=True,
+            name="core"
+        )
+        self.Aout = self.add_weight(
+            shape=(self.C, self.D, self.D),
+            initializer=tf.keras.initializers.RandomNormal(stddev=self.stddev),
+            trainable=True,
+            name="output"
+        )
 
-        A = tf.einsum("nbi,nlri->nblr", input, self.tensor)
+    def call(self, inputs):
+        # inputs: (N, batch_size, d)
+        A = tf.einsum("nbi,nlri->nblr", inputs,
+                      self.tensor)  # (N, batch, D, D)
 
-        nhalf = n//2
-        Al = A[0, :, 0, :]
+        nhalf = self.n // 2
+        Al = A[0, :, 0, :]  # (batch, D)
         for i in range(1, nhalf):
             Al = tf.einsum("bl,blr->br", Al, A[i])
 
-        Ar = A[n-1, :, :, 0]
-        for i in range(n-2, nhalf-1, -1):
-            Al = tf.einsum("blr,br->bl", A[i], Ar)
+        Ar = A[-1, :, :, 0]  # (batch, D)
+        for i in range(self.n - 2, nhalf - 1, -1):
+            Ar = tf.einsum("blr,br->bl", A[i], Ar)
 
-        Aout = tf.einsum("bl,olr->bor", Al, self.Aout)
-        out = tf.einsum("bor,br->bo", Aout, Ar)
-
+        Aout = tf.einsum("bl,olr->bor", Al, self.Aout)  # (batch, C, D)
+        out = tf.einsum("bor,br->bo", Aout, Ar)         # (batch, C)
         return out
 
 
@@ -108,16 +115,14 @@ class MPS(tf.keras.layers.Layer):
 class MPS_model(tf.keras.Model):
     def __init__(self, D, C=1, d=2, stddev=0.5):
         super(MPS_model, self).__init__()
-        self.D = D
-        self.d = d
-        self.C = C
         self.embedding = Embedding(d)
-        self.mps = MPS(D=D, d=d, C=C, stddev=0.5)
+        self.mps = MPS(D=D, d=d, C=C, stddev=stddev)
+        self.C = C
 
     def call(self, inputs):
         x = self.embedding(inputs)
         x = self.mps(x)
-        x = tf.keras.activations.sigmoid(x)
         if self.C > 1:
-            x = tf.keras.activations.softmax(x)
-        return x
+            return tf.keras.activations.softmax(x)
+        else:
+            return tf.keras.activations.sigmoid(x)
