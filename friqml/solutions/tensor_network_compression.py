@@ -12,7 +12,7 @@ def _transpose_and_reshape(img, nbit):
         dims.append(i)
         dims.append(i+nbit)
     data1 = np.transpose(data, dims)
-    A = np.reshape(data1, [4**nbit])
+    A = np.reshape(data1, [4]*nbit)
     return A
 
 
