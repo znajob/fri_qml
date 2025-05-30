@@ -62,9 +62,8 @@ class Embedding(tf.keras.layers.Layer):
 
         return tf.stack(emb, axis=-1)  # (N, batch_size, d)
 
+
 # EXERCISE 3
-
-
 class MPS(tf.keras.layers.Layer):
     def __init__(self, D, C, d=2, stddev=0.5):
         super(MPS, self).__init__()
